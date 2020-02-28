@@ -1,8 +1,8 @@
 /** 
  * Name: Joshua Ahles
  * Class ID: 162
- * Assignment 1
- * Class demonstrating a Simple List using methods to manipulate it
+ * Assignment 2
+ * This assignment is designed to give you practice with using a version control system.
 */
 
 
@@ -12,11 +12,13 @@ public class SimpleList {
    
    private int list[];
    private int count;
+   private int size;
 
    //Create an array to hold 10 integers and set count to 0.
    public SimpleList() {
        this.count = 0;
        list = new int[10];
+       this.size = 10;
    }
 
    
@@ -25,7 +27,7 @@ public class SimpleList {
        if (count == 0) {
            list[count] = num;
            count++;
-       } else if (count < 10) {
+       } else if (count < size) {
            for (int indexLocation = count; indexLocation >= 0; indexLocation--) {
                list[indexLocation + 1] = list[indexLocation];
            }
@@ -35,14 +37,18 @@ public class SimpleList {
            
        } else {
     	   
-           list[count - 1] = 0;
-           for (int indexLocation = count; indexLocation >= 0; indexLocation--) {
-               list[indexLocation + 1] = list[indexLocation];
+    	   int newLength = size + (size/2);
+    	   int[] newList = new int [newLength];
+    	   newList[0] = num;
+    	   
+           for (int indexLocation = count; indexLocation >= 0; indexLocation++) {
+               newList[indexLocation + 1] = list[indexLocation];
            }
            
-           list[0] = num;
-           count++;
+           list = newList;
+           size = newLength;
            
+           count++;
        }
    }
    
@@ -57,12 +63,94 @@ public class SimpleList {
            }
            //remove element
            count--;
+           
+           if ((count>1) && (size - count > size / 4))
+           {
+        	   decreaseSize();
+           }
        } 
     	   
        
    }
+   
+   
+   //The append method should append the parameter to the end of the list.  
+   //If the list was full, then increase the size by 50% so there will be room.  
+   public void append(int num) {
+	   if (count == 0) {
+		   list[0] = num;
+		   
+	   }
+	   else {
+		   if (count < size) {
+			   list[count] = num;
+			   
+		   }
+		   else {
+			   
+			   	int newLength = size + (size/2);
+				int[] newList = new int[newLength];
+				for (int indexLocation = 0; indexLocation < count; indexLocation++) {
+					newList[indexLocation] = list[indexLocation];
+				}
+				newList[count] = num;
+				list = newList;
+				size = newLength;
+			}
+		}
+	
+	   count++;
+   }
+   
+   
+   //Return the first element in the list.  If there are no elements n the list, then return -1.
+   public int first() {
+	   if (count > 0) {
+		   return list[0];
+		   
+	   }
+	   else {
+		   return -1;
+	   }
+   }
+   
+   //Return the last element in the list.  If there are no elements n the list, then return -1.
+   public int last() {
+	   if (count > 0) {
+		   return list[count-1];
+		   
+	   }
+	   else {
+		   return -1;
+	   }
+   }
+   
+   
+   //Return the current number of possible locations in the list
+   public int size() {
+	   return size;
+   }
+	   
 
-   //Return the number of elements stored in the list.
+   private void decreaseSize() {
+	// TODO Auto-generated method stub
+	   int newLength;
+	   int[] newList;
+	   
+	   newLength = size - size / 4;
+	   newList = new int[newLength];
+	   
+	   for(int indexLocation = 0; indexLocation < count; indexLocation++) {
+		   newList[indexLocation] = list[indexLocation];
+	   }
+	   
+	   list = newList;
+	   size = newLength;
+	
+}
+
+
+//Return the number of elements stored in the list.
    public int count() {
 	   
        return count;
@@ -92,5 +180,7 @@ public class SimpleList {
        }
        return str;
    }
+   
+  
 
 }
